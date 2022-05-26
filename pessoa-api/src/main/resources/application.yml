@@ -1,0 +1,26 @@
+
+eureka:
+  instance:
+    hostname: localhost
+
+server:
+  port: '8099'
+
+spring:
+  application:
+    name: pessoa
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 3 # mínimo para mudar para o estado ABERTO
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 10s # Tempo para aguardar para HALF-OPEN
+        failureRateThreshold: 50 # Quando 50% retornar falha, o estado muda para ABERTO
+    instances:
+      servico:
+        baseConfig: default
